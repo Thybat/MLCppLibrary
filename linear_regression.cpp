@@ -25,7 +25,7 @@ std::vector<double> LinearRegression::simple_linear_regression(std::vector<std::
     return coeff_b;
 }
 
-double LinearRegression::determ_coeff(std::vector<double> y_predict_values,std::vector<std::vector<double> > x_to_be_predicted,std::vector<std::vector<double> > dataset) //Fonction Incomplete PAS UTILISER
+double LinearRegression::r_2_coeff(std::vector<double> y_predict_values,std::vector<std::vector<double> > x_to_be_predicted,std::vector<std::vector<double> > dataset) //Fonction Incomplete PAS UTILISER
 {
     std::vector<double> mean_data;
     mean_data = mean(dataset);
@@ -38,7 +38,7 @@ double LinearRegression::determ_coeff(std::vector<double> y_predict_values,std::
     return sst/sst_ssr;
 }
 
-std::vector<double> LinearRegression::prediction(std::vector<double> theta, std::vector<std::vector<double> > dataset) // ok y'a deux fois la même fonction mais c'est pour réflechir plus vite
+std::vector<double> LinearRegression::prediction(std::vector<double> theta, std::vector<std::vector<double> > dataset)
 {
     double sum_pred=0.0;
     std::vector<double> prediction;
@@ -51,7 +51,6 @@ std::vector<double> LinearRegression::prediction(std::vector<double> theta, std:
         {
             sum_pred += theta[i_col+1]*dataset[i_col][i_features];
         }
-        std::cout << sum_pred << std::endl;
         prediction.push_back(sum_pred);
      }
 
@@ -62,16 +61,13 @@ std::vector<double> LinearRegression::grad_cost_function(std::vector<double> the
     std::vector<double> total_processed_pred;
     std::vector<double> cost_func;
     total_processed_pred = prediction(theta,dataset);//1 pour toutes les features et 1 par valeurs du tableau
-    //Resize et a 0
     double each_elem_cost_func=0.0;
     unsigned int i_features = 0;
     unsigned int i_col = 0;
     unsigned int i_col_label = dataset.size()-1;
     for (i_col=0;i_col<dataset[0].size();i_col++)
         {
-            //std::cout << total_processed_pred[nmbr_values] << nmbr_values;
             each_elem_cost_func += (total_processed_pred[i_col] - dataset[i_col_label][i_col]);
-            //std::cout << each_elem_cost_func << ' ' << nmbr_values << '\n';
         }
     cost_func.push_back(each_elem_cost_func/dataset.size()); // Theta0
 
@@ -80,14 +76,10 @@ std::vector<double> LinearRegression::grad_cost_function(std::vector<double> the
         each_elem_cost_func = 0.0;
         for ( i_col=0;i_col<dataset[0].size();i_col++)
         {
-            //std::cout << total_processed_pred[nmbr_values] << nmbr_values;
             each_elem_cost_func += (total_processed_pred[i_col] - dataset[i_col_label][i_col]) * dataset[i_features][i_col];
         }
         cost_func.push_back(each_elem_cost_func/dataset.size());
     }
-    //for (unsigned int i=0; i<cost_func.size();i++)
-       //std::cout<< cost_func[i] << ' ' << i <<'\n';
-
    return cost_func;
 }
 std::vector<double> LinearRegression::grad_descent_iter(std::vector<std::vector<double> > dataset, double learning_rate)//grad_descent_iter
@@ -96,18 +88,17 @@ std::vector<double> LinearRegression::grad_descent_iter(std::vector<std::vector<
     std::vector <double> cost_func;
     unsigned int nb_features = dataset.size() -1;
     for(unsigned int j=0; j<dataset.size();j++)
-        theta.push_back(static_cast <double> (rand())/(static_cast <double>(RAND_MAX/100.0))); //-10 et 10
-    //pred = sum_pred(theta,dataset); //On calcule la somme de la prediction A ACTUALISER AVEC LES NVX THETA
-    for (unsigned int i=0; i<100;i++)
+        theta.push_back(static_cast <double> (rand())/(static_cast <double>(RAND_MAX/10))); //-10 et 10
+    //On calcule la somme de la prediction A ACTUALISER AVEC LES NVX THETA
+    for (unsigned int i=0; i<10000;i++)
     {
 
-    cost_func = grad_cost_function(theta,dataset); // Creation des theta et calcul de la fonction de cout dérivee en fonction de chaque theta
+        cost_func = grad_cost_function(theta,dataset); // Creation des theta et calcul de la fonction de cout dérivee en fonction de chaque theta
 
-    for (unsigned int nb_values=0;nb_values<dataset.size();nb_values++)
-    {
-        theta[nb_values] = theta[nb_values] - learning_rate * cost_func[nb_values];
-        std::cout << theta[nb_values] << ' ' << nb_values << std::endl;
-    }
+        for (unsigned int nb_values=0;nb_values<dataset.size();nb_values++)
+        {
+            theta[nb_values] = theta[nb_values] - learning_rate * cost_func[nb_values];
+        }
     }
 
     return theta;
