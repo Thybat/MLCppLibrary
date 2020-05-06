@@ -17,8 +17,6 @@ std::vector<double> LinearRegression::simple_linear_regression(std::vector<std::
         somme_num += (dataset[0][i]-mean_data[0])*(dataset[1][i]-mean_data[1]);
         somme_den += pow((dataset[0][i]-mean_data[0]),2);
     }
-    std::cout << somme_num << std::endl;
-    std::cout << somme_den << std::endl;
     double div_num_den = somme_num/somme_den;
     coeff_b.push_back(mean_data[1] - div_num_den*mean_data[0]);
     coeff_b.push_back(div_num_den);
@@ -100,6 +98,5 @@ std::vector<double> LinearRegression::grad_descent_iter(std::vector<std::vector<
             theta[nb_values] = theta[nb_values] - learning_rate * cost_func[nb_values];
         }
     }
-
     return theta;
 }

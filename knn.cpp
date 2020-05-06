@@ -81,18 +81,21 @@ void afficher_classe( std::vector<std::vector<double>> data, std::vector<int> in
     }
     if ( classe1>classe2 && classe1 >classe3)
     {
-        std::cout<<" c est classe 0 "<<std::endl;
+        std::cout<<"c est la classe 0 "<<std::endl<<std::endl;
     }
     if ( classe2>classe1 && classe2 >classe3)
     {
-        std::cout<<" c est classe 1 "<<std::endl;
+        std::cout<<"c est la classe 1 "<<std::endl<<std::endl;
     }
     if ( classe3>classe1 && classe3 >classe2)
     {
-        std::cout<<" c est classe 2 "<<std::endl;
+        std::cout<<"c est la classe 2 "<<std::endl<<std::endl;
     }
-    std::cout<<classe1<<"  "<<classe2<<"  "<<classe3<<std::endl;
+    std::cout<<"voisin de classe 0 : "<<classe1<<std::endl;
+    std::cout<<"voisin de classe 1 : "<<classe2<<std::endl;
+    std::cout<<"voisin de classe 2 : "<<classe3<<std::endl<<std::endl;
 }
+
 int retourner_classe( std::vector<std::vector<double>> data, std::vector<int> ind_min, int choix_k )
 {
     int classe1=0, classe2=0, classe3=0;
